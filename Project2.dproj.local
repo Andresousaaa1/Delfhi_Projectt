@@ -3,11 +3,18 @@
 	<Transactions>
     <Transaction>2025/07/09 13:41:59.000.193,=C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
     <Transaction>2025/07/14 13:32:22.000.404,=C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2025/08/04 15:21:32.438,=C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2025/08/04 15:21:54.343,C:\Users\André das neves\Desktop\DelfhiProject\Delfhi_Projectt\Umain.dfm=C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Unit2.dfm</Transaction>
-    <Transaction>2025/08/04 15:21:54.343,C:\Users\André das neves\Desktop\DelfhiProject\Delfhi_Projectt\Umain.pas=C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2025/08/04 15:22:29.024,C:\Users\André das neves\Desktop\DelfhiProject\Project2.dproj=C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
-    <Transaction>2025/08/04 15:23:11.620,=C:\Users\André das neves\Desktop\DelfhiProject\Unit1.pas</Transaction>
-    <Transaction>2025/08/04 15:23:35.259,C:\Users\André das neves\Desktop\DelfhiProject\Delfhi_Projectt\Uestudantes.pas=C:\Users\André das neves\Desktop\DelfhiProject\Unit1.pas</Transaction>
+    <Transaction>2025/08/04 15:21:32.000.438,=C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/08/04 15:21:54.000.343,C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Unit2.pas=C:\Users\André das neves\Desktop\DelfhiProject\Delfhi_Projectt\Umain.pas</Transaction>
+    <Transaction>2025/08/04 15:21:54.000.343,C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Unit2.dfm=C:\Users\André das neves\Desktop\DelfhiProject\Delfhi_Projectt\Umain.dfm</Transaction>
+    <Transaction>2025/08/04 15:22:29.000.024,C:\Users\André das neves\Documents\Embarcadero\Studio\Projects\Project2.dproj=C:\Users\André das neves\Desktop\DelfhiProject\Project2.dproj</Transaction>
+    <Transaction>2025/08/04 15:23:11.000.620,=C:\Users\André das neves\Desktop\DelfhiProject\Unit1.pas</Transaction>
+    <Transaction>2025/08/04 15:23:35.000.259,C:\Users\André das neves\Desktop\DelfhiProject\Unit1.pas=C:\Users\André das neves\Desktop\DelfhiProject\Delfhi_Projectt\Uestudantes.pas</Transaction>
+    <Transaction>2025/08/04 15:55:56.000.094,=C:\Users\André das neves\Desktop\DelfhiProject\Unit1.pas</Transaction>
   </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="Delfhi_Projectt"/>
+    <File Path="Delfhi_Projectt\Uestudantes.pas"/>
+    <File Path="Delfhi_Projectt\Umain.pas"/>
+    <File Path="Delfhi_Projectt\Umain.dfm"/>
+  </ProjectSortOrder>
 </BorlandProject>
