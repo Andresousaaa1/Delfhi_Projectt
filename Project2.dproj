@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{197D5019-5679-4FAC-83DF-84687D92DA3B}</ProjectGuid>
+        <ProjectGuid>{37BF4004-99BD-4A94-A3F7-336824B2E1E7}</ProjectGuid>
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
@@ -123,11 +123,11 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Delfhi_Projectt\Umain.pas">
+        <DCCReference Include="Umain.pas">
             <Form>Form2</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Delfhi_Projectt\Uestudantes.pas"/>
+        <DCCReference Include="Uestudantes.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

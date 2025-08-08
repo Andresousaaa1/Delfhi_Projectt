@@ -2,8 +2,8 @@ program Project2;
 
 uses
   Vcl.Forms,
-  Umain in 'Delfhi_Projectt\Umain.pas' {Form2},
-  Uestudantes in 'Delfhi_Projectt\Uestudantes.pas';
+  Umain in 'Umain.pas' {Form2},
+  Uestudantes in 'Uestudantes.pas';
 
 {$R *.res}
 
