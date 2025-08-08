@@ -1352,7 +1352,7 @@ object Form2: TForm2
     Top = 40
     Width = 289
     Height = 329
-    ActivePage = Disciplinas
+    ActivePage = Estudantes
     MultiLine = True
     TabOrder = 0
     StyleName = 'Login'
@@ -1497,7 +1497,7 @@ object Form2: TForm2
         Height = 21
         Caption = 'Voltar'
         TabOrder = 7
-        OnClick = VoltarClick
+        OnClick = Voltar4Click
       end
     end
     object Professores: TTabSheet
@@ -1533,7 +1533,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Incluir'
         TabOrder = 2
-        OnClick = BtnIncluirClick
       end
       object Cpf: TEdit
         Left = 159
@@ -1550,7 +1549,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Listar'
         TabOrder = 4
-        OnClick = BtnListarClick
       end
       object BtnExcluir1: TButton
         Left = 150
@@ -1559,7 +1557,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Excluir'
         TabOrder = 5
-        OnClick = BtnExcluirClick
       end
       object BtnAtualizar1: TButton
         Left = 45
@@ -1568,7 +1565,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Atualizar'
         TabOrder = 6
-        OnClick = BtnAtualizarClick
       end
       object ComboBox2: TComboBox
         Left = 72
@@ -1590,7 +1586,7 @@ object Form2: TForm2
         Height = 21
         Caption = 'Voltar'
         TabOrder = 8
-        OnClick = VoltarClick
+        OnClick = Voltar3Click
       end
     end
     object Disciplinas: TTabSheet
@@ -1626,7 +1622,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Incluir'
         TabOrder = 2
-        OnClick = BtnIncluirClick
       end
       object BtnAtualizar2: TButton
         Left = 40
@@ -1635,7 +1630,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Atualizar'
         TabOrder = 3
-        OnClick = BtnAtualizarClick
       end
       object BtnListar2: TButton
         Left = 152
@@ -1644,7 +1638,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Listar'
         TabOrder = 4
-        OnClick = BtnListarClick
       end
       object BtnExcluir2: TButton
         Left = 152
@@ -1653,7 +1646,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Excluir'
         TabOrder = 5
-        OnClick = BtnExcluirClick
       end
       object ListBox3: TListBox
         Left = 80
@@ -1708,13 +1700,12 @@ object Form2: TForm2
         Text = 'Codigo Professor'
       end
       object BtnAtualizar3: TButton
-        Left = 56
+        Left = 48
         Top = 242
         Width = 75
         Height = 25
         Caption = 'Atualizar'
         TabOrder = 3
-        OnClick = BtnAtualizarClick
       end
       object BtnListar3: TButton
         Left = 168
@@ -1723,7 +1714,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Listar'
         TabOrder = 4
-        OnClick = BtnListarClick
       end
       object BtnIncluir3: TButton
         Left = 48
@@ -1732,7 +1722,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Incluir'
         TabOrder = 5
-        OnClick = BtnIncluirClick
       end
       object BtnExcluir3: TButton
         Left = 168
@@ -1741,7 +1730,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Excluir'
         TabOrder = 6
-        OnClick = BtnExcluirClick
       end
       object ListBox2: TListBox
         Left = 80
@@ -1758,7 +1746,7 @@ object Form2: TForm2
         Height = 21
         Caption = 'Voltar'
         TabOrder = 8
-        OnClick = VoltarClick
+        OnClick = Voltar1Click
       end
     end
     object Matriculas: TTabSheet
@@ -1802,7 +1790,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Listar'
         TabOrder = 3
-        OnClick = BtnListarClick
       end
       object BtnIncluir4: TButton
         Left = 48
@@ -1811,7 +1798,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Incluir'
         TabOrder = 4
-        OnClick = BtnIncluirClick
       end
       object BtnAtualizar4: TButton
         Left = 48
@@ -1820,7 +1806,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Atualizar'
         TabOrder = 5
-        OnClick = BtnAtualizarClick
       end
       object BtnExcluir4: TButton
         Left = 152
@@ -1829,7 +1814,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Excluir'
         TabOrder = 6
-        OnClick = BtnExcluirClick
       end
       object ListBox1: TListBox
         Left = 81
@@ -1846,7 +1830,7 @@ object Form2: TForm2
         Height = 21
         Caption = 'Voltar'
         TabOrder = 8
-        OnClick = VoltarClick
+        OnClick = Voltar2Click
       end
     end
   end

@@ -81,7 +81,10 @@ type
     procedure FormCreate(Sender: TObject);
 
     procedure VoltarClick(Sender: TObject);
-    procedure VoltarParaMenu;
+    procedure Voltar1Click(Sender: TObject);
+    procedure Voltar2Click(Sender: TObject);
+    procedure Voltar3Click(Sender: TObject);
+    procedure Voltar4Click(Sender: TObject);
 
     procedure FormDestroy(Sender: TObject);
 
@@ -311,14 +314,29 @@ begin
     abas.ActivePage := Turmas;
 end;
 
-//BOTÃO VOLTAR
+//BOTÕES VOLTAR
 
-procedure TForm2.VoltarClick(Sender: TObject);
+procedure TForm2.Voltar1Click(Sender: TObject);
 begin
-  VoltarParaMenu;
+  abas.ActivePage := Menu;
 end;
 
-procedure TForm2.VoltarParaMenu;
+procedure TForm2.Voltar2Click(Sender: TObject);
+begin
+  abas.ActivePage := Menu;
+end;
+
+procedure TForm2.Voltar3Click(Sender: TObject);
+begin
+  abas.ActivePage := Menu;
+end;
+
+procedure TForm2.Voltar4Click(Sender: TObject);
+begin
+  abas.ActivePage := Menu;
+end;
+
+procedure TForm2.VoltarClick(Sender: TObject);
 begin
   abas.ActivePage := Menu;
 end;
