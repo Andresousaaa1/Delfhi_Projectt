@@ -1431,7 +1431,6 @@ object Form2: TForm2
         Height = 25
         Caption = 'Atualizar'
         TabOrder = 0
-        OnClick = BtnAtualizarClick
       end
       object CodEstudantes: TEdit
         Left = 152

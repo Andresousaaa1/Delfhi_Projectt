@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.jpeg, Vcl.Grids, System.Generics.Collections, System.JSON, Uestudantes;
+  Vcl.Imaging.jpeg, Vcl.Grids, System.Generics.Collections, Uestudantes;
 
 type
   TForm2 = class(TForm)
@@ -71,14 +71,12 @@ type
     Voltar4: TButton;
     Voltar2: TButton;
     Voltar3: TButton;
-
     procedure BtnEstudantesClick(Sender: TObject);
     procedure BtnProfessoresClick(Sender: TObject);
     procedure BtnDisciplinasClick(Sender: TObject);
     procedure BtnTurmasClick(Sender: TObject);
     procedure BtnMatriculasClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-
     procedure VoltarClick(Sender: TObject);
     procedure Voltar1Click(Sender: TObject);
     procedure Voltar2Click(Sender: TObject);
@@ -86,17 +84,16 @@ type
     procedure Voltar4Click(Sender: TObject);
 
     procedure FormDestroy(Sender: TObject);
-
     procedure BtnIncluirClick(Sender: TObject);
     procedure BtnListarClick(Sender: TObject);
     procedure BtnExcluirClick(Sender: TObject);
-    procedure BtnAtualizarClick(Sender: TObject);
+
 
   private
     { Private declarations }
   ListaEstudantes: TObjectList<TEstudante>;
-  procedure SalvarEstudantes;
-  procedure CarregarEstudantes;
+  procedure AdicionarEstudanteNaLista;
+  procedure AdicionarEstudanteNaTela(aEstudantes:TEstudante);
   public
     { Public declarations }
   end;
@@ -110,6 +107,16 @@ implementation
 {$R *.dfm}
 
 
+procedure TForm2.AdicionarEstudanteNaLista;
+begin
+
+end;
+
+procedure TForm2.AdicionarEstudanteNaTela(aEstudantes: TEstudante);
+begin
+
+end;
+
   //BOTÃO EXCLUIR
 
 procedure TForm2.BtnExcluirClick(Sender: TObject);
@@ -118,23 +125,14 @@ var
   cod: Integer;
 begin
   cod := StrToIntDef(CodEstudantes.Text, -1);
-  if cod < 0 then
-  begin
-    ShowMessage('Código inválido');
-    Exit;
-  end;
-
   for i := ListaEstudantes.Count - 1 downto 0 do
     if ListaEstudantes[i].Codigo = cod then
     begin
       ListaEstudantes.Delete(i);
-      SalvarEstudantes;
-      BtnListarClick(nil);
-      ShowMessage('Estudante excluído.');
+      ShowMessage('Excluído.');
       Exit;
     end;
-
-  ShowMessage('Estudante não encontrado.');
+  ShowMessage('Não encontrado.');
 end;
 
   //BOTÃO INCLUIR
@@ -159,10 +157,6 @@ begin
   est.Codigo := cod;
   est.Nome := Nome.Text;
   ListaEstudantes.Add(est);
-  SalvarEstudantes;
-
-  ComboBox1.Items.Add(Format('%d - %s', [est.Codigo, est.Nome]));
-  ShowMessage('Estudante incluído com sucesso.');
 
 end;
 
@@ -177,40 +171,6 @@ begin
 end;
 
  //BOTÕES DE DIRECIONAMENTO
-
-procedure TForm2.BtnAtualizarClick(Sender: TObject);
-var
-  cod: Integer;
-  est: TEstudante;
-  encontrado: Boolean;
-begin
-  cod := StrToIntDef(CodEstudantes.Text, -1);
-  if (cod < 0) or (Nome.Text = '') then
-  begin
-    ShowMessage('Preencha o código e o nome corretamente.');
-    Exit;
-  end;
-
-  encontrado := False;
-  for est in ListaEstudantes do
-  begin
-    if est.Codigo = cod then
-    begin
-      est.Nome := Nome.Text;
-      encontrado := True;
-      Break;
-    end;
-  end;
-
-  if encontrado then
-  begin
-    SalvarEstudantes;
-    BtnListarClick(nil);
-    ShowMessage('Estudante atualizado com sucesso.');
-  end
-  else
-    ShowMessage('Estudante com este código não foi encontrado.');
-end;
 
 procedure TForm2.BtnDisciplinasClick(Sender: TObject);
 begin
@@ -237,35 +197,7 @@ begin
     abas.ActivePage := Turmas;
 end;
 
-  procedure TForm2.CarregarEstudantes;
-var
-  JsonStr: TStringList;
-  JsonArray: TJSONArray;
-  Est: TEstudante;
-  i: Integer;
-begin
-  if not FileExists('estudantes.json') then Exit;
-
-  JsonStr := TStringList.Create;
-  try
-    JsonStr.LoadFromFile('estudantes.json');
-    JsonArray := TJSONObject.ParseJSONValue(JsonStr.Text) as TJSONArray;
-    try
-      for i := 0 to JsonArray.Count - 1 do
-      begin
-        Est := TEstudante.Create;
-        Est.FromJSON(JsonArray.Items[i] as TJSONObject);
-        ListaEstudantes.Add(Est);
-      end;
-    finally
-      JsonArray.Free;
-    end;
-  finally
-    JsonStr.Free;
-  end;
-end;
-
-//FORM CREATE
+  //FORM CREATE
 
 procedure TForm2.FormCreate(Sender: TObject);
 begin
@@ -274,8 +206,6 @@ begin
   abas.TabWidth := 1;
 
   ListaEstudantes := TObjectList<TEstudante>.Create(True);
-  CarregarEstudantes;
-  BtnListarClick(nil);
 end;
 
 procedure TForm2.FormDestroy(Sender: TObject);
@@ -283,31 +213,7 @@ begin
    ListaEstudantes.Free;
 end;
 
-// SALVAR
-  procedure TForm2.SalvarEstudantes;
-var
-  JsonArray: TJSONArray;
-  Est: TEstudante;
-  JsonStr: TStringList;
-begin
-  JsonArray := TJSONArray.Create;
-  try
-    for Est in ListaEstudantes do
-      JsonArray.AddElement(Est.ToJSON);
-
-    JsonStr := TStringList.Create;
-    try
-      JsonStr.Text := JsonArray.ToString;
-      JsonStr.SaveToFile('estudantes.json');
-    finally
-      JsonStr.Free;
-    end;
-  finally
-    JsonArray.Free;
-  end;
-end;
-
-//BOTÕES VOLTAR
+  //BOTÕES VOLTAR
 
 procedure TForm2.Voltar1Click(Sender: TObject);
 begin

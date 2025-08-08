@@ -71,14 +71,12 @@ type
     Voltar4: TButton;
     Voltar2: TButton;
     Voltar3: TButton;
-
     procedure BtnEstudantesClick(Sender: TObject);
     procedure BtnProfessoresClick(Sender: TObject);
     procedure BtnDisciplinasClick(Sender: TObject);
     procedure BtnTurmasClick(Sender: TObject);
     procedure BtnMatriculasClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-
     procedure VoltarClick(Sender: TObject);
     procedure Voltar1Click(Sender: TObject);
     procedure Voltar2Click(Sender: TObject);
@@ -86,11 +84,10 @@ type
     procedure Voltar4Click(Sender: TObject);
 
     procedure FormDestroy(Sender: TObject);
-
     procedure BtnIncluirClick(Sender: TObject);
     procedure BtnListarClick(Sender: TObject);
     procedure BtnExcluirClick(Sender: TObject);
-    procedure BtnAtualizarClick(Sender: TObject);
+
 
   private
     { Private declarations }
@@ -108,6 +105,7 @@ implementation
 
 
 {$R *.dfm}
+
 
 
   //BOTÃO EXCLUIR
@@ -178,40 +176,6 @@ end;
 
  //BOTÕES DE DIRECIONAMENTO
 
-procedure TForm2.BtnAtualizarClick(Sender: TObject);
-var
-  cod: Integer;
-  est: TEstudante;
-  encontrado: Boolean;
-begin
-  cod := StrToIntDef(CodEstudantes.Text, -1);
-  if (cod < 0) or (Nome.Text = '') then
-  begin
-    ShowMessage('Preencha o código e o nome corretamente.');
-    Exit;
-  end;
-
-  encontrado := False;
-  for est in ListaEstudantes do
-  begin
-    if est.Codigo = cod then
-    begin
-      est.Nome := Nome.Text;
-      encontrado := True;
-      Break;
-    end;
-  end;
-
-  if encontrado then
-  begin
-    SalvarEstudantes;
-    BtnListarClick(nil);
-    ShowMessage('Estudante atualizado com sucesso.');
-  end
-  else
-    ShowMessage('Estudante com este código não foi encontrado.');
-end;
-
 procedure TForm2.BtnDisciplinasClick(Sender: TObject);
 begin
   abas.ActivePage := Disciplinas;
@@ -265,7 +229,7 @@ begin
   end;
 end;
 
-//FORM CREATE
+  //FORM CREATE
 
 procedure TForm2.FormCreate(Sender: TObject);
 begin
@@ -283,7 +247,7 @@ begin
    ListaEstudantes.Free;
 end;
 
-// SALVAR
+  // SALVAR
   procedure TForm2.SalvarEstudantes;
 var
   JsonArray: TJSONArray;

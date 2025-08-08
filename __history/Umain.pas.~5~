@@ -71,14 +71,12 @@ type
     Voltar4: TButton;
     Voltar2: TButton;
     Voltar3: TButton;
-
     procedure BtnEstudantesClick(Sender: TObject);
     procedure BtnProfessoresClick(Sender: TObject);
     procedure BtnDisciplinasClick(Sender: TObject);
     procedure BtnTurmasClick(Sender: TObject);
     procedure BtnMatriculasClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-
     procedure VoltarClick(Sender: TObject);
     procedure Voltar1Click(Sender: TObject);
     procedure Voltar2Click(Sender: TObject);
@@ -86,7 +84,6 @@ type
     procedure Voltar4Click(Sender: TObject);
 
     procedure FormDestroy(Sender: TObject);
-
     procedure BtnIncluirClick(Sender: TObject);
     procedure BtnListarClick(Sender: TObject);
     procedure BtnExcluirClick(Sender: TObject);
@@ -108,6 +105,7 @@ implementation
 
 
 {$R *.dfm}
+
 
 
   //BOTÃO EXCLUIR
