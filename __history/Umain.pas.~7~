@@ -77,7 +77,6 @@ type
     procedure BtnDisciplinasClick(Sender: TObject);
     procedure BtnTurmasClick(Sender: TObject);
     procedure BtnMatriculasClick(Sender: TObject);
-
     procedure FormCreate(Sender: TObject);
 
     procedure VoltarClick(Sender: TObject);
@@ -111,81 +110,7 @@ implementation
 {$R *.dfm}
 
 
-//FORM CREATE
-
-  procedure TForm2.FormCreate(Sender: TObject);
-begin
-  abas.TabHeight := 1;
-  abas.TabWidth := 1;
-
-  ListaEstudantes := TObjectList<TEstudante>.Create(True);
-  CarregarEstudantes;
-  BtnListarClick(nil);
-end;
-
-//FORM DESTROY
-
-procedure TForm2.FormDestroy(Sender: TObject);
-begin
-   ListaEstudantes.Free;
-end;
-
-// SALVAR ESTUDANTES
-
-  procedure TForm2.SalvarEstudantes;
-var
-  JsonArray: TJSONArray;
-  Est: TEstudante;
-  JsonStr: TStringList;
-begin
-  JsonArray := TJSONArray.Create;
-  try
-    for Est in ListaEstudantes do
-      JsonArray.AddElement(Est.ToJSON);
-
-    JsonStr := TStringList.Create;
-    try
-      JsonStr.Text := JsonArray.ToString;
-      JsonStr.SaveToFile('estudantes.json');
-    finally
-      JsonStr.Free;
-    end;
-  finally
-    JsonArray.Free;
-  end;
-end;
-
-//CARREGAR ESTUDANTES
-
-procedure TForm2.CarregarEstudantes;
-var
-  JsonStr: TStringList;
-  JsonArray: TJSONArray;
-  Est: TEstudante;
-  i: Integer;
-begin
-  if not FileExists('estudantes.json') then Exit;
-
-  JsonStr := TStringList.Create;
-  try
-    JsonStr.LoadFromFile('estudantes.json');
-    JsonArray := TJSONObject.ParseJSONValue(JsonStr.Text) as TJSONArray;
-    try
-      for i := 0 to JsonArray.Count - 1 do
-      begin
-        Est := TEstudante.Create;
-        Est.FromJSON(JsonArray.Items[i] as TJSONObject);
-        ListaEstudantes.Add(Est);
-      end;
-    finally
-      JsonArray.Free;
-    end;
-  finally
-    JsonStr.Free;
-  end;
-end;
-
-//BOTÃO EXCLUIR
+  //BOTÃO EXCLUIR
 
 procedure TForm2.BtnExcluirClick(Sender: TObject);
 var
@@ -212,7 +137,7 @@ begin
   ShowMessage('Estudante não encontrado.');
 end;
 
-//BOTÃO INCLUIR
+  //BOTÃO INCLUIR
 
 procedure TForm2.BtnIncluirClick(Sender: TObject);
   var
@@ -241,7 +166,7 @@ begin
 
 end;
 
-//BOTÃO LISTAR
+  //BOTÃO LISTAR
 
 procedure TForm2.BtnListarClick(Sender: TObject);
 var est: TEstudante;
@@ -251,7 +176,7 @@ begin
   ComboBox1.Items.Add(Format('%d - %s', [est.Codigo, est.Nome]));
 end;
 
-//BOTÃO ATUALIZAR
+ //BOTÕES DE DIRECIONAMENTO
 
 procedure TForm2.BtnAtualizarClick(Sender: TObject);
 var
@@ -287,8 +212,6 @@ begin
     ShowMessage('Estudante com este código não foi encontrado.');
 end;
 
-//BOTÕES DE DIRECIONAMENTO
-
 procedure TForm2.BtnDisciplinasClick(Sender: TObject);
 begin
   abas.ActivePage := Disciplinas;
@@ -312,6 +235,76 @@ end;
 procedure TForm2.BtnTurmasClick(Sender: TObject);
 begin
     abas.ActivePage := Turmas;
+end;
+
+  procedure TForm2.CarregarEstudantes;
+var
+  JsonStr: TStringList;
+  JsonArray: TJSONArray;
+  Est: TEstudante;
+  i: Integer;
+begin
+  if not FileExists('estudantes.json') then Exit;
+
+  JsonStr := TStringList.Create;
+  try
+    JsonStr.LoadFromFile('estudantes.json');
+    JsonArray := TJSONObject.ParseJSONValue(JsonStr.Text) as TJSONArray;
+    try
+      for i := 0 to JsonArray.Count - 1 do
+      begin
+        Est := TEstudante.Create;
+        Est.FromJSON(JsonArray.Items[i] as TJSONObject);
+        ListaEstudantes.Add(Est);
+      end;
+    finally
+      JsonArray.Free;
+    end;
+  finally
+    JsonStr.Free;
+  end;
+end;
+
+//FORM CREATE
+
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+
+  abas.TabHeight := 1;
+  abas.TabWidth := 1;
+
+  ListaEstudantes := TObjectList<TEstudante>.Create(True);
+  CarregarEstudantes;
+  BtnListarClick(nil);
+end;
+
+procedure TForm2.FormDestroy(Sender: TObject);
+begin
+   ListaEstudantes.Free;
+end;
+
+// SALVAR
+  procedure TForm2.SalvarEstudantes;
+var
+  JsonArray: TJSONArray;
+  Est: TEstudante;
+  JsonStr: TStringList;
+begin
+  JsonArray := TJSONArray.Create;
+  try
+    for Est in ListaEstudantes do
+      JsonArray.AddElement(Est.ToJSON);
+
+    JsonStr := TStringList.Create;
+    try
+      JsonStr.Text := JsonArray.ToString;
+      JsonStr.SaveToFile('estudantes.json');
+    finally
+      JsonStr.Free;
+    end;
+  finally
+    JsonArray.Free;
+  end;
 end;
 
 //BOTÕES VOLTAR

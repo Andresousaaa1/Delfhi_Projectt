@@ -18,6 +18,7 @@ interface
 
     function ToJSON: TJSONObject;
     procedure FromJSON(AJson: TJSONObject);
+
   end;
 
 implementation
@@ -41,7 +42,6 @@ begin
   except
     raise Exception.Create('Erro ao converter dados do JSON.');
   end;
-
 end;
 
 procedure TEstudante.FromLine(ALine: string);
