@@ -5,7 +5,9 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.jpeg, Vcl.Grids, System.Generics.Collections, System.JSON, Uestudantes, UProfessores;
+  Vcl.Imaging.jpeg, Vcl.Grids, System.Generics.Collections, System.JSON, Uestudantes, UProfessores,
+  Udisciplinas;
+
 
 type
   TForm2 = class(TForm)
@@ -39,10 +41,10 @@ type
     Titulo3: TLabel;
     NomeDisciplina: TEdit;
     CodDisciplinas: TEdit;
-    BtnIncluir2: TButton;
-    BtnAtualizar2: TButton;
-    BtnListar2: TButton;
-    BtnExcluir2: TButton;
+    BtnIncluirDis: TButton;
+    BtnAtualizarDis: TButton;
+    BtnListarDisc: TButton;
+    BtnExcluirDis: TButton;
     ListBox3: TListBox;
     ComboBox1: TComboBox;
     ComboBox2: TComboBox;
@@ -89,20 +91,28 @@ type
     procedure BtnListarClick(Sender: TObject);
     procedure BtnExcluirClick(Sender: TObject);
     procedure BtnAtualizarClick(Sender: TObject);
+
     procedure BtnIncluirProfClick(Sender: TObject);
     procedure BtnListarProfClick(Sender: TObject);
     procedure BtnAtualizarProfClick(Sender: TObject);
     procedure BtnExcluirProfClick(Sender: TObject);
 
+    procedure BtnIncluirDisClick(Sender: TObject);
+    procedure BtnListarDiscClick(Sender: TObject);
+    procedure BtnAtualizarDisClick(Sender: TObject);
+    procedure BtnExcluirDisClick(Sender: TObject);
 
   private
     { Private declarations }
   ListaEstudantes: TObjectList<TEstudante>;
   ListaProfessores: TObjectList<TProfessores>;
+  ListaDisciplinas: TObjectList<TDisciplinas>;
   procedure SalvarEstudantes;
   procedure CarregarEstudantes;
   procedure SalvarProfessores;
   procedure CarregarProfessores;
+  procedure SalvarDisciplinas;
+  procedure CarregarDisciplinas;
   public
     { Public declarations }
   end;
@@ -125,10 +135,13 @@ begin
 
   ListaEstudantes := TObjectList<TEstudante>.Create(True);
   ListaProfessores := TObjectList<TProfessores>.Create(True);
+  ListaDisciplinas := TObjectList<TDisciplinas>.Create(True);
   CarregarEstudantes;
   CarregarProfessores;
+  CarregarDisciplinas;
   BtnListarClick(nil);
   BtnListarProfClick(nil);
+  BtnListarDiscClick(nil);
 end;
 
 //FORM DESTROY
@@ -137,9 +150,10 @@ procedure TForm2.FormDestroy(Sender: TObject);
 begin
    ListaEstudantes.Free;
    ListaProfessores.Free;
+   ListaDisciplinas.Free;
 end;
 
-// SALVAR ESTUDANTES e PROFESSORES
+// SALVAR ESTUDANTES
 
   procedure TForm2.SalvarEstudantes;
 var
@@ -164,6 +178,8 @@ begin
   end;
 end;
 
+// SALVAR PROFESSORES
+
   procedure TForm2.SalvarProfessores;
 var
   JsonArray: TJSONArray;
@@ -187,7 +203,32 @@ begin
   end;
 end;
 
-//CARREGAR ESTUDANTES e PROFESSORES
+// SALVAR DISCIPLINAS
+
+procedure TForm2.SalvarDisciplinas;
+var
+  JsonArray: TJSONArray;
+  Disciplinas: TDisciplinas;
+  JsonStr: TStringList;
+begin
+  JsonArray := TJSONArray.Create;
+  try
+    for Disciplinas in ListaDisciplinas do
+      JsonArray.AddElement(Disciplinas.ToJSON);
+
+    JsonStr := TStringList.Create;
+    try
+      JsonStr.Text := JsonArray.ToString;
+      JsonStr.SaveToFile('disciplinas.json');
+    finally
+      JsonStr.Free;
+    end;
+  finally
+    JsonArray.Free;
+  end;
+end;
+
+//CARREGAR ESTUDANTES
 
 procedure TForm2.CarregarEstudantes;
 var
@@ -203,6 +244,7 @@ begin
     JsonStr.LoadFromFile('estudantes.json');
     JsonArray := TJSONObject.ParseJSONValue(JsonStr.Text) as TJSONArray;
     try
+      ListaEstudantes.Clear;
       for i := 0 to JsonArray.Count - 1 do
       begin
         Est := TEstudante.Create;
@@ -216,6 +258,8 @@ begin
     JsonStr.Free;
   end;
 end;
+
+//CARREGAR PROFESSORES
 
 procedure TForm2.CarregarProfessores;
 var
@@ -231,6 +275,7 @@ begin
     JsonStr.LoadFromFile('professores.json');
     JsonArray := TJSONObject.ParseJSONValue(JsonStr.Text) as TJSONArray;
     try
+      ListaProfessores.Clear;
       for i := 0 to JsonArray.Count - 1 do
       begin
         Prof := TProfessores.Create;
@@ -245,6 +290,36 @@ begin
   end;
 end;
 
+//CARREGAR DISCIPLINAS
+
+procedure TForm2.CarregarDisciplinas;
+var
+  JsonStr: TStringList;
+  JsonArray: TJSONArray;
+  disciplinas: TDisciplinas;
+  i: Integer;
+begin
+  if not FileExists('disciplinas.json') then Exit;
+
+  JsonStr := TStringList.Create;
+  try
+    JsonStr.LoadFromFile('disciplinas.json');
+    JsonArray := TJSONObject.ParseJSONValue(JsonStr.Text) as TJSONArray;
+    try
+      ListaDisciplinas.Clear;
+      for i := 0 to JsonArray.Count - 1 do
+      begin
+        disciplinas := TDisciplinas.Create;
+        disciplinas.FromJSON(JsonArray.Items[i] as TJSONObject);
+        ListaDisciplinas.Add(disciplinas);
+      end;
+    finally
+      JsonArray.Free;
+    end;
+  finally
+    JsonStr.Free;
+  end;
+end;
 
 //BOTÃO EXCLUIR estudantes
 
@@ -300,6 +375,32 @@ begin
   ShowMessage('Professor não encontrado.');
 end;
 
+//BOTÃO EXCLUIR disciplinas
+
+procedure TForm2.BtnExcluirDisClick(Sender: TObject);
+var
+  i: Integer;
+  cod: Integer;
+begin
+  cod := StrToIntDef(CodDisciplinas.Text, -1);
+  if cod < 0 then
+  begin
+    ShowMessage('Codigo invalido');
+    Exit;
+  end;
+
+  for i := ListaDisciplinas.Count - 1 downto 0 do
+    if ListaDisciplinas[i].Codigo = cod then
+    begin
+      ListaDisciplinas.Delete(i);
+      SalvarDisciplinas;
+      BtnListarDiscClick(nil);
+      ShowMessage('Disciplina excluida.');
+      Exit;
+    end;
+
+  ShowMessage('Disciplina não encontrada.');
+end;
 
 //BOTÃO INCLUIR estudantes
 
@@ -330,7 +431,7 @@ begin
 
 end;
 
- //BOTÃO INCLUIR Professores
+//BOTÃO INCLUIR Professores
 
 procedure TForm2.BtnIncluirProfClick(Sender: TObject);
 var
@@ -339,7 +440,7 @@ var
   CpfProf: String;
 begin
   cod := StrToIntDef(CodProfessor.Text, -1);
-  if (cod < 0) or (Nome.Text = '') or (Cpf.Text = '') then
+  if (cod < 0) or (NomeProfessor.Text = '') or (Cpf.Text = '') then
     Exit;
 
   for Prof in ListaProfessores do
@@ -351,7 +452,7 @@ begin
 
   Prof := TProfessores.Create;
   Prof.Codigo := cod;
-  Prof.Nome := Nome.Text;
+  Prof.Nome := NomeProfessor.Text;
   Prof.Cpf := Cpf.Text;
   ListaProfessores.Add(Prof);
   SalvarProfessores;
@@ -360,12 +461,40 @@ begin
   ShowMessage('Professor incluido com sucesso.');
 end;
 
+//BOTÃO INCLUIR disciplinas
+
+ procedure TForm2.BtnIncluirDisClick(Sender: TObject);
+var
+  disciplinas: TDisciplinas;
+  cod: Integer;
+begin
+  cod := StrToIntDef(CodDisciplinas.Text, -1);
+  if (cod < 0) or (NomeDisciplina.Text = '') then
+    Exit;
+
+  for disciplinas in ListaDisciplinas do
+    if disciplinas.Codigo = cod then
+    begin
+      ShowMessage('Codigo ja existe!');
+      Exit;
+    end;
+
+  disciplinas := TDisciplinas.Create;
+  disciplinas.Codigo := cod;
+  disciplinas.Nome := NomeDisciplina.Text;
+  ListaDisciplinas.Add(disciplinas);
+  SalvarDisciplinas;
+
+  ListBox3.Items.Add(Format('%d - %s', [disciplinas.Codigo, disciplinas.Nome]));
+  ShowMessage('Disciplina incluida com sucesso.');
+end;
 
 //BOTÃO LISTAR estudantes
 
 procedure TForm2.BtnListarClick(Sender: TObject);
 var est: TEstudante;
 begin
+  CarregarEstudantes;
   ComboBox1.Clear;
   for est in ListaEstudantes do
   ComboBox1.Items.Add(Format('%d - %s', [est.Codigo, est.Nome]));
@@ -375,11 +504,22 @@ end;
 procedure TForm2.BtnListarProfClick(Sender: TObject);
 var Prof: TProfessores;
 begin
+  CarregarProfessores;
   ComboBox2.Clear;
   for Prof in ListaProfessores do
   ComboBox2.Items.Add(Format('%d; %s; %s', [Prof.Codigo, Prof.Nome, Prof.Cpf]));
 end;
 
+//BOTÃO LISTAR disciplinas
+
+procedure TForm2.BtnListarDiscClick(Sender: TObject);
+var disciplinas: TDisciplinas;
+begin
+  CarregarDisciplinas;
+  ListBox3.Clear;
+  for disciplinas in ListaDisciplinas do
+  ListBox3.Items.Add(Format('%d - %s', [disciplinas.Codigo, disciplinas.Nome]));
+end;
 
 //BOTÃO ATUALIZAR estudantes
 
@@ -427,7 +567,7 @@ var
   encontrado: Boolean;
 begin
   cod := StrToIntDef(CodProfessor.Text, -1);
-  if (cod < 0) or (Nome.Text = '') or (Cpf.Text = '') then
+  if (cod < 0) or (NomeProfessor.Text = '') or (Cpf.Text = '') then
   begin
     ShowMessage('Preencha o codigo o nome e o Cpf corretamente.');
     Exit;
@@ -438,7 +578,7 @@ begin
   begin
     if Prof.Codigo = cod then
     begin
-      Prof.Nome := Nome.Text;
+      Prof.Nome := NomeProfessor.Text;
       Prof.Cpf := Cpf.Text;
       encontrado := True;
       Break;
@@ -453,6 +593,42 @@ begin
   end
   else
     ShowMessage('Professor com este codigo não foi encontrado.');
+end;
+
+//BOTÃO ATUALIZAR disciplinas
+
+procedure TForm2.BtnAtualizarDisClick(Sender: TObject);
+var
+  cod: Integer;
+  disciplinas: TDisciplinas;
+  encontrado: Boolean;
+begin
+  cod := StrToIntDef(CodDisciplinas.Text, -1);
+  if (cod < 0) or (NomeDisciplina.Text = '') then
+  begin
+    ShowMessage('Preencha o codigo e o nome corretamente.');
+    Exit;
+  end;
+
+  encontrado := False;
+  for disciplinas in ListaDisciplinas do
+  begin
+    if disciplinas.Codigo = cod then
+    begin
+      disciplinas.Nome := NomeDisciplina.Text;
+      encontrado := True;
+      Break;
+    end;
+  end;
+
+  if encontrado then
+  begin
+    SalvarDisciplinas;
+    BtnListarDiscClick(nil);
+    ShowMessage('Disciplina atualiza com sucesso.');
+  end
+  else
+    ShowMessage('Disciplina com este codigo não foi encontrado.');
 end;
 
 //BOTÕES DE DIRECIONAMENTO

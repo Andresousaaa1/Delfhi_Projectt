@@ -1352,7 +1352,7 @@ object Form2: TForm2
     Top = 40
     Width = 289
     Height = 329
-    ActivePage = Professores
+    ActivePage = Disciplinas
     MultiLine = True
     TabOrder = 0
     StyleName = 'Login'
@@ -1619,41 +1619,41 @@ object Form2: TForm2
         TabOrder = 1
         Text = 'Codigo'
       end
-      object BtnIncluir2: TButton
+      object BtnIncluirDis: TButton
         Left = 40
         Top = 192
         Width = 75
         Height = 25
         Caption = 'Incluir'
         TabOrder = 2
-        OnClick = BtnIncluirClick
+        OnClick = BtnIncluirDisClick
       end
-      object BtnAtualizar2: TButton
+      object BtnAtualizarDis: TButton
         Left = 40
         Top = 223
         Width = 75
         Height = 25
         Caption = 'Atualizar'
         TabOrder = 3
-        OnClick = BtnAtualizarClick
+        OnClick = BtnAtualizarDisClick
       end
-      object BtnListar2: TButton
+      object BtnListarDisc: TButton
         Left = 152
         Top = 192
         Width = 75
         Height = 25
         Caption = 'Listar'
         TabOrder = 4
-        OnClick = BtnListarClick
+        OnClick = BtnListarDiscClick
       end
-      object BtnExcluir2: TButton
+      object BtnExcluirDis: TButton
         Left = 152
         Top = 223
         Width = 75
         Height = 25
         Caption = 'Excluir'
         TabOrder = 5
-        OnClick = BtnExcluirClick
+        OnClick = BtnExcluirDisClick
       end
       object ListBox3: TListBox
         Left = 80
