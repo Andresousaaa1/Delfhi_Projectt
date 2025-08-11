@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.jpeg, Vcl.Grids, System.Generics.Collections, System.JSON, Uestudantes;
+  Vcl.Imaging.jpeg, Vcl.Grids, System.Generics.Collections, System.JSON, Uestudantes, Uprofessores;
 
 type
   TForm2 = class(TForm)
@@ -93,8 +93,11 @@ type
   private
     { Private declarations }
   ListaEstudantes: TObjectList<TEstudante>;
+  ListaProfessores: TObjectList<TProfessor>;
   procedure SalvarEstudantes;
   procedure CarregarEstudantes;
+  procedure SalvarProfessores;
+  procedure CarregarProfessores;
   public
     { Public declarations }
   end;
@@ -116,7 +119,9 @@ begin
   abas.TabWidth := 1;
 
   ListaEstudantes := TObjectList<TEstudante>.Create(True);
+  ListaProfessores := TObjectList<TProfessor>.Create(True);
   CarregarEstudantes;
+  CarregarProfessores;
   BtnListarClick(nil);
 end;
 
@@ -125,9 +130,10 @@ end;
 procedure TForm2.FormDestroy(Sender: TObject);
 begin
    ListaEstudantes.Free;
+   ListaProfessores.Free;
 end;
 
-// SALVAR ESTUDANTES
+// SALVAR ESTUDANTES e PROFESSORES
 
   procedure TForm2.SalvarEstudantes;
 var
@@ -152,7 +158,30 @@ begin
   end;
 end;
 
-//CARREGAR ESTUDANTES
+  procedure TForm2.SalvarProfessores;
+var
+  JsonArray: TJSONArray;
+  Prof: TProfessor;
+  JsonStr: TStringList;
+begin
+  JsonArray := TJSONArray.Create;
+  try
+    for Prof in ListaProfessores do
+      JsonArray.AddElement(Prof.ToJSON);
+
+    JsonStr := TStringList.Create;
+    try
+      JsonStr.Text := JsonArray.ToString;
+      JsonStr.SaveToFile('professores.json');
+    finally
+      JsonStr.Free;
+    end;
+  finally
+    JsonArray.Free;
+  end;
+end;
+
+//CARREGAR ESTUDANTES e PROFESSORES
 
 procedure TForm2.CarregarEstudantes;
 var
@@ -182,7 +211,35 @@ begin
   end;
 end;
 
-//BOTÃO EXCLUIR
+procedure TForm2.CarregarProfessores;
+var
+  JsonStr: TStringList;
+  JsonArray: TJSONArray;
+  Prof: TProfessor;
+  i: Integer;
+begin
+  if not FileExists('professores.json') then Exit;
+
+  JsonStr := TStringList.Create;
+  try
+    JsonStr.LoadFromFile('professores.json');
+    JsonArray := TJSONObject.ParseJSONValue(JsonStr.Text) as TJSONArray;
+    try
+      for i := 0 to JsonArray.Count - 1 do
+      begin
+        Prof := TProfessor.Create;
+        Prof.FromJSON(JsonArray.Items[i] as TJSONObject);
+        ListaProfessores.Add(Prof);
+      end;
+    finally
+      JsonArray.Free;
+    end;
+  finally
+    JsonStr.Free;
+  end;
+end;
+
+//BOTï¿½O EXCLUIR
 
 procedure TForm2.BtnExcluirClick(Sender: TObject);
 var
@@ -192,7 +249,7 @@ begin
   cod := StrToIntDef(CodEstudantes.Text, -1);
   if cod < 0 then
   begin
-    ShowMessage('Código inválido');
+    ShowMessage('Cï¿½digo invï¿½lido');
     Exit;
   end;
 
@@ -202,14 +259,14 @@ begin
       ListaEstudantes.Delete(i);
       SalvarEstudantes;
       BtnListarClick(nil);
-      ShowMessage('Estudante excluído.');
+      ShowMessage('Estudante excluï¿½do.');
       Exit;
     end;
 
-  ShowMessage('Estudante não encontrado.');
+  ShowMessage('Estudante nï¿½o encontrado.');
 end;
 
-//BOTÃO INCLUIR
+//BOTï¿½O INCLUIR
 
 procedure TForm2.BtnIncluirClick(Sender: TObject);
   var
@@ -223,7 +280,7 @@ begin
   for est in ListaEstudantes do
     if est.Codigo = cod then
     begin
-      ShowMessage('Código já existe!');
+      ShowMessage('Cï¿½digo jï¿½ existe!');
       Exit;
     end;
 
@@ -234,11 +291,11 @@ begin
   SalvarEstudantes;
 
   ComboBox1.Items.Add(Format('%d - %s', [est.Codigo, est.Nome]));
-  ShowMessage('Estudante incluído com sucesso.');
+  ShowMessage('Estudante incluï¿½do com sucesso.');
 
 end;
 
-//BOTÃO LISTAR
+//BOTï¿½O LISTAR
 
 procedure TForm2.BtnListarClick(Sender: TObject);
 var est: TEstudante;
@@ -248,7 +305,7 @@ begin
   ComboBox1.Items.Add(Format('%d - %s', [est.Codigo, est.Nome]));
 end;
 
-//BOTÃO ATUALIZAR
+//BOTï¿½O ATUALIZAR
 
 procedure TForm2.BtnAtualizarClick(Sender: TObject);
 var
@@ -259,7 +316,7 @@ begin
   cod := StrToIntDef(CodEstudantes.Text, -1);
   if (cod < 0) or (Nome.Text = '') then
   begin
-    ShowMessage('Preencha o código e o nome corretamente.');
+    ShowMessage('Preencha o cï¿½digo e o nome corretamente.');
     Exit;
   end;
 
@@ -281,10 +338,10 @@ begin
     ShowMessage('Estudante atualizado com sucesso.');
   end
   else
-    ShowMessage('Estudante com este código não foi encontrado.');
+    ShowMessage('Estudante com este cï¿½digo nï¿½o foi encontrado.');
 end;
 
-//BOTÕES DE DIRECIONAMENTO
+//BOTï¿½ES DE DIRECIONAMENTO
 
 procedure TForm2.BtnDisciplinasClick(Sender: TObject);
 begin
@@ -311,7 +368,7 @@ begin
     abas.ActivePage := Turmas;
 end;
 
-//BOTÃO VOLTAR
+//BOTï¿½O VOLTAR
 
 procedure TForm2.VoltarClick(Sender: TObject);
 begin
