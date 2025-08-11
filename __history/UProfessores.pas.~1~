@@ -37,14 +37,14 @@ begin
   CpfVal := AJson.GetValue('cpf');
 
   if (not Assigned(CodigoVal)) or (not Assigned (CpfVal)) or (not Assigned(NomeVal)) then
-    raise Exception.Create('JSON inv�lido: campos ausentes.');
+    raise Exception.Create('JSON inv lido: campos ausentes.');
 
   try
-    Codigo := StrToInt(CodigoVal.Value);        
+    Codigo := StrToInt(CodigoVal.Value);
     Nome := NomeVal.Value;
     Cpf := CpfVal.Value;
 
-  except    
+  except
     raise Exception.Create('Erro ao converter dados do JSON.');
   end;
 
@@ -56,7 +56,7 @@ var
 begin
   Campos := ALine.Split([';']);
   if Length(Campos) <> 3 then
-  raise Exception.Create('Linha inv�lida');
+  raise Exception.Create('Linha inv lida');
   Codigo := StrToInt(Campos[0]);
   Nome := Campos[1];
   Cpf := Campos[2];
@@ -72,7 +72,7 @@ end;
 
 function TProfessores.ToLine: string;
 begin
-  Result := Format('%d;%s;%s', [Codigo, Nome, Cpf]);    
+  Result := Format('%d;%s;%s', [Codigo, Nome, Cpf]);
 end;
 
 end.

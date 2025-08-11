@@ -30,12 +30,12 @@ type
     BtnExcluir: TButton;
     CodProfessor: TEdit;
     NomeProfessor: TEdit;
-    BtnIncluirProf: TButton;
+    BtnIncluir1: TButton;
     Titulo2: TLabel;
     Cpf: TEdit;
-    BtnListarProf: TButton;
-    BtnExcluirProf: TButton;
-    BtnAtualizarProf: TButton;
+    BtnListar1: TButton;
+    BtnExcluir1: TButton;
+    BtnAtualizar1: TButton;
     Titulo3: TLabel;
     NomeDisciplina: TEdit;
     CodDisciplinas: TEdit;
@@ -89,10 +89,6 @@ type
     procedure BtnListarClick(Sender: TObject);
     procedure BtnExcluirClick(Sender: TObject);
     procedure BtnAtualizarClick(Sender: TObject);
-    procedure BtnIncluirProfClick(Sender: TObject);
-    procedure BtnListarProfClick(Sender: TObject);
-    procedure BtnAtualizarProfClick(Sender: TObject);
-    procedure BtnExcluirProfClick(Sender: TObject);
 
 
   private
@@ -128,7 +124,6 @@ begin
   CarregarEstudantes;
   CarregarProfessores;
   BtnListarClick(nil);
-  BtnListarProfClick(nil);
 end;
 
 //FORM DESTROY
@@ -246,7 +241,7 @@ begin
 end;
 
 
-//BOTÃO EXCLUIR estudantes
+//BOT�O EXCLUIR
 
 procedure TForm2.BtnExcluirClick(Sender: TObject);
 var
@@ -266,42 +261,14 @@ begin
       ListaEstudantes.Delete(i);
       SalvarEstudantes;
       BtnListarClick(nil);
-      ShowMessage('Estudante excluido.');
+      ShowMessage('Estudante exclu�do.');
       Exit;
     end;
 
   ShowMessage('Estudante não encontrado.');
 end;
 
-//BOTÃO EXCLUIR professores
-procedure TForm2.BtnExcluirProfClick(Sender: TObject);
-var
-  i: Integer;
-  cod: Integer;
-  Cpf: String;
-begin
-  cod := StrToIntDef(CodProfessor.Text, -1);
-  if cod < 0 then
-  begin
-    ShowMessage('Codigo invalido');
-    Exit;
-  end;
-
-  for i := ListaProfessores.Count - 1 downto 0 do
-    if ListaProfessores[i].Codigo = cod then
-    begin
-      ListaProfessores.Delete(i);
-      SalvarProfessores;
-      BtnListarProfClick(nil);
-      ShowMessage('Professor excluido.');
-      Exit;
-    end;
-
-  ShowMessage('Professor não encontrado.');
-end;
-
-
-//BOTÃO INCLUIR estudantes
+//BOTÃO INCLUIR
 
 procedure TForm2.BtnIncluirClick(Sender: TObject);
   var
@@ -326,42 +293,11 @@ begin
   SalvarEstudantes;
 
   ComboBox1.Items.Add(Format('%d - %s', [est.Codigo, est.Nome]));
-  ShowMessage('Estudante incluido com sucesso.');
+  ShowMessage('Estudante inclu�do com sucesso.');
 
 end;
 
- //BOTÃO INCLUIR Professores
-
-procedure TForm2.BtnIncluirProfClick(Sender: TObject);
-var
-  Prof: TProfessores;
-  cod: Integer;
-  CpfProf: String;
-begin
-  cod := StrToIntDef(CodProfessor.Text, -1);
-  if (cod < 0) or (Nome.Text = '') or (Cpf.Text = '') then
-    Exit;
-
-  for Prof in ListaProfessores do
-    if Prof.Codigo = cod then
-    begin
-      ShowMessage('Codigo ja existe!');
-      Exit;
-    end;
-
-  Prof := TProfessores.Create;
-  Prof.Codigo := cod;
-  Prof.Nome := Nome.Text;
-  Prof.Cpf := Cpf.Text;
-  ListaProfessores.Add(Prof);
-  SalvarProfessores;
-
-  ComboBox2.Items.Add(Format('%d;%s;%s', [Prof.Codigo, Prof.Nome, Prof.Cpf]));
-  ShowMessage('Professor incluido com sucesso.');
-end;
-
-
-//BOTÃO LISTAR estudantes
+//BOTÃO LISTAR
 
 procedure TForm2.BtnListarClick(Sender: TObject);
 var est: TEstudante;
@@ -371,17 +307,7 @@ begin
   ComboBox1.Items.Add(Format('%d - %s', [est.Codigo, est.Nome]));
 end;
 
-//BOTÃO LISTAR professores
-procedure TForm2.BtnListarProfClick(Sender: TObject);
-var Prof: TProfessores;
-begin
-  ComboBox2.Clear;
-  for Prof in ListaProfessores do
-  ComboBox2.Items.Add(Format('%d; %s; %s', [Prof.Codigo, Prof.Nome, Prof.Cpf]));
-end;
-
-
-//BOTÃO ATUALIZAR estudantes
+//BOTÃO ATUALIZAR
 
 procedure TForm2.BtnAtualizarClick(Sender: TObject);
 var
@@ -414,45 +340,7 @@ begin
     ShowMessage('Estudante atualizado com sucesso.');
   end
   else
-    ShowMessage('Estudante com este codigo não foi encontrado.');
-end;
-
-//BOTÃO ATUALIZAR Professores
-
-procedure TForm2.BtnAtualizarProfClick(Sender: TObject);
-var
-  cod: Integer;
-  Prof: TProfessores;
-  CpfProf: String;
-  encontrado: Boolean;
-begin
-  cod := StrToIntDef(CodProfessor.Text, -1);
-  if (cod < 0) or (Nome.Text = '') or (Cpf.Text = '') then
-  begin
-    ShowMessage('Preencha o codigo o nome e o Cpf corretamente.');
-    Exit;
-  end;
-
-  encontrado := False;
-  for Prof in ListaProfessores do
-  begin
-    if Prof.Codigo = cod then
-    begin
-      Prof.Nome := Nome.Text;
-      Prof.Cpf := Cpf.Text;
-      encontrado := True;
-      Break;
-    end;
-  end;
-
-  if encontrado then
-  begin
-    SalvarProfessores;
-    BtnListarProfClick(nil);
-    ShowMessage('Professor atualizado com sucesso.');
-  end
-  else
-    ShowMessage('Professor com este codigo não foi encontrado.');
+    ShowMessage('Estudante com este codigo n�o foi encontrado.');
 end;
 
 //BOTÕES DE DIRECIONAMENTO

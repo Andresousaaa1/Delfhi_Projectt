@@ -1526,14 +1526,14 @@ object Form2: TForm2
         TabOrder = 1
         Text = 'Nome'
       end
-      object BtnIncluirProf: TButton
+      object BtnIncluir1: TButton
         Left = 45
         Top = 208
         Width = 80
         Height = 25
         Caption = 'Incluir'
         TabOrder = 2
-        OnClick = BtnIncluirProfClick
+        OnClick = BtnProfessoresClick
       end
       object Cpf: TEdit
         Left = 159
@@ -1543,32 +1543,32 @@ object Form2: TForm2
         TabOrder = 3
         Text = 'Cpf'
       end
-      object BtnListarProf: TButton
+      object BtnListar1: TButton
         Left = 152
         Top = 209
         Width = 80
         Height = 25
         Caption = 'Listar'
         TabOrder = 4
-        OnClick = BtnListarProfClick
+        OnClick = BtnProfessoresClick
       end
-      object BtnExcluirProf: TButton
+      object BtnExcluir1: TButton
         Left = 150
         Top = 240
         Width = 80
         Height = 25
         Caption = 'Excluir'
         TabOrder = 5
-        OnClick = BtnExcluirProfClick
+        OnClick = BtnProfessoresClick
       end
-      object BtnAtualizarProf: TButton
+      object BtnAtualizar1: TButton
         Left = 45
         Top = 239
         Width = 80
         Height = 25
         Caption = 'Atualizar'
         TabOrder = 6
-        OnClick = BtnAtualizarProfClick
+        OnClick = BtnProfessoresClick
       end
       object ComboBox2: TComboBox
         Left = 72

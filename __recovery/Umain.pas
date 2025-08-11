@@ -1,4 +1,4 @@
-﻿unit Umain;
+unit Umain;
 
 interface
 
@@ -351,7 +351,7 @@ begin
 
   Prof := TProfessores.Create;
   Prof.Codigo := cod;
-  Prof.Nome := Nome.Text;
+  Prof.Nome := NomeProfessor.Text;
   Prof.Cpf := Cpf.Text;
   ListaProfessores.Add(Prof);
   SalvarProfessores;
