@@ -2,7 +2,7 @@ object Form2: TForm2
   Left = 0
   Top = 0
   Caption = 'Form2'
-  ClientHeight = 448
+  ClientHeight = 447
   ClientWidth = 756
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,7 +16,7 @@ object Form2: TForm2
     Left = 0
     Top = 0
     Width = 756
-    Height = 448
+    Height = 447
     Align = alClient
     Picture.Data = {
       0A544A504547496D616765AEA50000FFD8FFE000104A46494600010102001C00
@@ -1346,13 +1346,14 @@ object Form2: TForm2
       6B1491B75DF4B79AF82CBFB5ACA8A34A3494CB91A9F735A1497C14508ACD165F
       DFDE54693494CB90A6C5345AEABA2FE442FBB593CA1D085DFA975FFFD9}
     ExplicitTop = 2
+    ExplicitHeight = 448
   end
   object abas: TPageControl
     Left = 232
     Top = 40
     Width = 289
     Height = 329
-    ActivePage = Disciplinas
+    ActivePage = Turmas
     MultiLine = True
     TabOrder = 0
     StyleName = 'Login'
@@ -1434,7 +1435,7 @@ object Form2: TForm2
         OnClick = BtnAtualizarClick
       end
       object CodEstudantes: TEdit
-        Left = 152
+        Left = 142
         Top = 137
         Width = 120
         Height = 23
@@ -1485,6 +1486,7 @@ object Form2: TForm2
         ItemIndex = 0
         TabOrder = 6
         Text = 'ComboBox1'
+        OnChange = ComboBox1Change
         Items.Strings = (
           'Andr'#233
           'Lucas'
@@ -1536,7 +1538,7 @@ object Form2: TForm2
         OnClick = BtnIncluirProfClick
       end
       object Cpf: TEdit
-        Left = 159
+        Left = 151
         Top = 127
         Width = 120
         Height = 23
@@ -1578,6 +1580,7 @@ object Form2: TForm2
         AutoComplete = False
         TabOrder = 7
         Text = 'ComboBox1'
+        OnChange = ComboBox2Change
         Items.Strings = (
           'Andr'#233
           'Lucas'
@@ -1662,6 +1665,7 @@ object Form2: TForm2
         Height = 97
         ItemHeight = 15
         TabOrder = 6
+        OnClick = ListBox3Click
       end
       object Voltar: TButton
         Left = 3
@@ -1693,55 +1697,54 @@ object Form2: TForm2
       end
       object CodTurmasDisciplinas: TEdit
         Left = 80
-        Top = 178
+        Top = 182
         Width = 121
         Height = 23
         TabOrder = 1
         Text = 'Codigo Disciplina'
       end
       object CodTurmasProfessor: TEdit
-        Left = 152
+        Left = 143
         Top = 149
         Width = 121
         Height = 23
         TabOrder = 2
         Text = 'Codigo Professor'
       end
-      object BtnAtualizar3: TButton
-        Left = 56
+      object BtnAtualizarTurm: TButton
+        Left = 48
         Top = 242
         Width = 75
         Height = 25
         Caption = 'Atualizar'
         TabOrder = 3
-        OnClick = BtnAtualizarClick
       end
-      object BtnListar3: TButton
+      object BtnListarTurm: TButton
         Left = 168
         Top = 211
         Width = 75
         Height = 25
         Caption = 'Listar'
         TabOrder = 4
-        OnClick = BtnListarClick
+        OnClick = BtnListarTurmClick
       end
-      object BtnIncluir3: TButton
+      object BtnIncluirTurm: TButton
         Left = 48
         Top = 211
         Width = 75
         Height = 25
         Caption = 'Incluir'
         TabOrder = 5
-        OnClick = BtnIncluirClick
+        OnClick = BtnIncluirTurmClick
       end
-      object BtnExcluir3: TButton
+      object BtnExcluirTurm: TButton
         Left = 168
         Top = 242
         Width = 75
         Height = 25
         Caption = 'Excluir'
         TabOrder = 6
-        OnClick = BtnExcluirClick
+        OnClick = BtnExcluirTurmClick
       end
       object ListBox2: TListBox
         Left = 80
@@ -1780,7 +1783,7 @@ object Form2: TForm2
         Text = 'Codigo'
       end
       object CodTurmaMatriculas: TEdit
-        Left = 151
+        Left = 143
         Top = 152
         Width = 121
         Height = 23
@@ -1788,7 +1791,7 @@ object Form2: TForm2
         Text = 'Codigo da Turma'
       end
       object CodEstudanteMatriculas: TEdit
-        Left = 87
+        Left = 79
         Top = 181
         Width = 121
         Height = 23

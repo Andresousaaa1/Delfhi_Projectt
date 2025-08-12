@@ -1,0 +1,78 @@
+unit UTurmas;
+
+interface
+
+  uses System.Classes, System.SysUtils, System.JSON;
+
+  type TTurmas = class (Tobject)
+
+  Private
+  FCodigo: integer;
+  FCodigoProf: integer;
+  FCodigoEst: integer;
+  public
+    property Codigo: Integer read FCodigo write FCodigo;
+    property CodigoProf: Integer read FCodigoProf write FCodigoProf;
+    property CodigoEst: Integer read FCodigoEst write FCodigoEst;
+
+    function ToLine: string;
+    procedure FromLine(ALine: string);
+
+    function ToJSON: TJSONObject;
+    procedure FromJSON(AJson: TJSONObject);
+  end;
+
+implementation
+
+{ TProfessores }
+
+procedure TTurmas.FromJSON(AJson: TJSONObject);
+var
+  CodigoVal: TJSONValue;
+  CodigoProfVal: TJSONValue;
+  CodigoEstVal: TJSONValue;
+begin
+  CodigoVal := AJson.GetValue('codigo');
+  CodigoProfVal := AJson.GetValue('codprofessor');
+  CodigoEstVal := AJson.GetValue('codestudante');
+
+  if (not Assigned(CodigoVal)) or (not Assigned (CodigoProfVal)) or (not Assigned(CodigoEstVal)) then
+    raise Exception.Create('JSON invalido: campos ausentes.');
+
+  try
+    Codigo := StrToInt(CodigoVal.Value);
+    CodigoProf := CodigoProfVal.Value;
+    CodigoEst := CodigoEstVal.Value;
+
+  except
+    raise Exception.Create('Erro ao converter dados do JSON.');
+  end;
+
+end;
+
+procedure TTurmas.FromLine(ALine: string);
+var
+  Campos: TArray<string>;
+begin
+  Campos := ALine.Split([';']);
+  if Length(Campos) <> 3 then
+  raise Exception.Create('Linha invalida');
+  Codigo := StrToInt(Campos[0]);
+  CodigoProf := Campos[1];
+  CodigoEst := Campos[2];
+end;
+
+function TTurmas.ToJSON: TJSONObject;
+begin
+  Result := TJSONObject.Create;
+  Result.AddPair('codigo', TJSONNumber.Create(Codigo));
+  Result.AddPair('codprofessor', CodigoProf);
+  Result.AddPair('codestudante',  CodigoEst);
+end;
+
+function TProfessores.ToLine: string;
+begin
+  Result := Format('%d;%s;%s', [Codigo, Nome, Cpf]);
+end;
+
+end.
